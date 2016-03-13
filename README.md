@@ -15,7 +15,7 @@
 
 ### 初期設定とDockerイメージの入手
 
-(初回起動手順)
+(Dockerの初回起動手順)
 
 1. Dockerのターミナルを起動する。
 アプリケーション>Docker>Docker Quickstart Terminal
@@ -32,16 +32,19 @@
 ```
 IPアドレスは2.で得られたものを指定する。
 
-(2回目以降の起動手順)
+(2回目以降のDocker起動手順)
 
 1. Dockerのターミナルを起動する。
 アプリケーション>Docker>Docker Quickstart Terminal
 (Windowsの場合はメニュー>プログラム>Docker>Docker Quickstart Terminal)から
 初回起動時はVirtual Boxの実行環境から構築するため、やや時間がかかる。
-2. (以下は初回起動時のみ）起動し終わってクジラの絵(AA)が出てきたら、HBaseを実行するコンテナイメージを取得する。(そこそこ時間がかかるので休み時間)
+2. 起動し終わってクジラの絵(AA)が出てきたら、HBaseを実行するコンテナイメージを取得する。
 
 ```bash
 $ docker pull cloudera/quickstart:latest
+$ docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+cloudera/quickstart   latest              584a24e9ca7b        3 months ago        6.213 GB
 ```
 
 ### Dockerコンテナの起動とHBase初期設定
@@ -49,6 +52,9 @@ $ docker pull cloudera/quickstart:latest
 ```bash
 $ docker run --hostname=quickstart.cloudera --privileged=true -t -i -p 80:80 -p 2181:2181 -p 7180:7180 -p 60000:60000 -p 60010:60010 -p 60020:60020 cloudera/quickstart /usr/bin/docker-quickstart
 ```
+
+(ポートはこんなに開けなくてもいいかもしれない。ZooKeeperクライアント接続:2181とZooKeeperが振り分けるであろうHBaseのregion server node:60020は必要。)  
+参考: http://blog.cloudera.com/blog/2013/07/guide-to-using-apache-hbase-ports/
 
 仮想OSのメモリが不十分(8GB)だとhue起動が失敗するが気にしない。
 
