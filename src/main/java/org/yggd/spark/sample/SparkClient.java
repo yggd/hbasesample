@@ -21,7 +21,7 @@ public class SparkClient {
 
     public static void execute() {
 
-        SparkConf sparkConf = new SparkConf().setAppName(SparkClient.class.getName()).setMaster("local[*]");
+        SparkConf sparkConf = new SparkConf().setAppName(SparkClient.class.getName()).setMaster("local[*]").set("spark.io.compression.codec", "lz4");
 
         try (JavaSparkContext javaSparkContext = new JavaSparkContext(sparkConf)) {
             JavaPairRDD<ImmutableBytesWritable, Result> result = resolveRDD(javaSparkContext);
