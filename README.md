@@ -149,10 +149,12 @@ VM起動オプションでシステムプロパティ`-Dhadoop.home.dir=C:¥winu
 
 Scalaでやったほうが簡単だけどあえてJavaでやる。
 VM起動オプションに以下を設定して、org.yggd.spark.sample.SparkClientを実行する。
+Windowsの場合、HBaseClientと同様、以下のVM起動オプションを指定して実行する。
 
 ```
--Dorg.xerial.snappy.lib.name=libsnappyjava.jnilib -Dorg.xerial.snappy.tempdir=/tmp
+-Dhadoop.home.dir=C:¥winutils
 ```
+
  以下のログが表示されていたら疎通は成功している。
  
  ```
