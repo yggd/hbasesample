@@ -8,9 +8,11 @@
             <param name="ConversionPattern" value="[%-5p] %m%n" />
         </layout>
     </appender>
-
-    <root>
+    <logger name="org.yggd">
         <level value="INFO"/>
+    </logger>
+    <root>
+        <level value="WARN"/>
         <appender-ref ref="stdout"/>
     </root>
 </log4j:configuration>

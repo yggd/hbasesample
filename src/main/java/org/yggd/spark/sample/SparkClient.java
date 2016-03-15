@@ -20,11 +20,8 @@ public class SparkClient {
     public static void main(String[] args) {execute();}
 
     public static void execute() {
-
-        SparkConf sparkConf = new SparkConf().setAppName(SparkClient.class.getName()).setMaster("local[*]").set("spark.io.compression.codec", "lz4");
-
-        try (JavaSparkContext javaSparkContext = new JavaSparkContext(sparkConf)) {
-            JavaPairRDD<ImmutableBytesWritable, Result> result = resolveRDD(javaSparkContext);
+        try (JavaSparkContext javaSparkContext = javaSparkContext(SparkClient.class)) {
+            JavaPairRDD<ImmutableBytesWritable, Result> result = resolveHBaseRDD(javaSparkContext);
 
             logger.info("**** Scan to test1");
 
@@ -37,7 +34,7 @@ public class SparkClient {
         }
     }
 
-    public static JavaPairRDD<ImmutableBytesWritable, Result> resolveRDD(JavaSparkContext context) {
+    public static JavaPairRDD<ImmutableBytesWritable, Result> resolveHBaseRDD(JavaSparkContext context) {
 
         // on HBase to RDD
         Configuration hbaseConf = HBaseConfiguration.create();
@@ -54,5 +51,11 @@ public class SparkClient {
 
     public static String getStringValue(Tuple2<ImmutableBytesWritable, Result> t, String colFamily, String qualifier) {
         return Bytes.toString(t._2.getValue(Bytes.toBytes(colFamily), Bytes.toBytes(qualifier)));
+    }
+
+    public static JavaSparkContext javaSparkContext(Class<?> clazz) {
+        SparkConf sparkConf = new SparkConf().setAppName(clazz.getName())
+                .setMaster("local[*]").set("spark.io.compression.codec", "lz4");
+        return new JavaSparkContext(sparkConf);
     }
 }
